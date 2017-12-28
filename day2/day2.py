@@ -30,8 +30,6 @@ def compute_check_sum(df):
 
     return sum(nums_to_sum)
 
-
-
 ##### test case
 test1 = np.array([[5,1,9,5], [7, 5, 3], [2, 4, 6, 8]])
 
