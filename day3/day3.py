@@ -11,7 +11,6 @@ import pandas as pd
 import numpy as np
 import math
 
-
 def to_spiral(A):
     A = np.array(A)
     B = np.empty_like(A)
@@ -44,24 +43,38 @@ def build_square_mat_array(start_value, corner_value):
 
     return square_mat_array
 
-# param values
+# param values; todo: name the values in the returned data structure for clarity
 def get_square_mat_params(start_value):
     nearest_square = math.ceil(math.sqrt(start_value))
     corner_val = nearest_square**2
-    shape_param = int(math.sqrt(corner_val))
+    return nearest_square, corner_val
 
-    return nearest_square, corner_val, shape_param
+# build array and reshape into square matrix
+def build_spiral_mat(start_value):
+    params = get_square_mat_params(start_value)
+    start_array = np.array(build_square_mat_array(start_value, params[1]))
+    A = start_array.reshape(params[0], params[0])
+    return to_spiral(A)
 
-get_square_mat_params(11)
 
-# build array
-tmp = np.array(build_square_mat_array(11, 16))
 
-# reshape into square matrix
-A = tmp.reshape(shape_param,shape_param)
 
-# spiralize it
-to_spiral(A)
+# get the indices of any number in the spiral matrix
+def idx_to_coords(test_value, test_array):
+    idx = np.where(test_array == test_value)
+    return idx[0][0], idx[1][0]
+
+
+##### testing
+test_value = 277678
+center_value = 1
+
+# build spiral array
+spiral_array = build_spiral_mat(test_value)
+
+# extract coordinate values for origin and for test value
+coord_values_test = idx_to_coords(test_value, spiral_array)
+coord_values_origin = idx_to_coords(center_value, spiral_array)
 
 # compute manhattan distance
 # the sum of the absolute differences of their Cartesian coordinates.
@@ -70,9 +83,5 @@ to_spiral(A)
 def compute_manhat_dist(coords1, coords2):
     return abs(coords1[0] - coords2[0]) + abs(coords1[1] - coords2[1])
 
-
 # testing function
-origin = [0,0]
-test_point = [0,-2]
-
-compute_manhat_dist(origin, test_point)
+compute_manhat_dist(coord_values_test, coord_values_origin)
