@@ -20,12 +20,16 @@ s4 = 'iiio'
 check_anagram(s1, s2)
 check_anagram(s3, s4)
 
+check_anagram('abcde', 'abcde')
+
 # function to check a full passphrase
 def check_phrase_valid(passphrases):
     for phrase in passphrases:
+        # extract the comparison phrases (i.e., not the current phrase)
         test_phrases = [s for s in passphrases if s != phrase]
-        if len(phrase) == 1:
-            return True
+        # check if there are repeats of the phrase itself
+        if passphrases.count(phrase) > 1:
+            return False
         # check the test phrase against the other phrases
         for comp_phrase in test_phrases:
             if check_anagram(phrase, comp_phrase):
@@ -41,8 +45,11 @@ check_phrase_valid(test_phrase2)
 test_phrase3 = ['abcde', 'fghij']
 check_phrase_valid(test_phrase3)
 
+test_phrase4 = ['abcde', 'xyz', 'ecdab']
+check_phrase_valid(test_phrase4)
 
-return True
+test_phrase5 = ['abcde', 'abcde', 'xyz']
+check_phrase_valid(test_phrase5)
 
 # function to iterate over list of Passphrases
 # stores the number of valid Passphrases
@@ -53,7 +60,7 @@ def count_valid_passphrases(list_of_passphrases):
             n_valid_phrases += 1
     return n_valid_phrases
 
-test_phrases_list = [test_phrase, test_phrase2, test_phrase3]
+test_phrases_list = [test_phrase, test_phrase2, test_phrase3, test_phrase4, test_phrase5]
 count_valid_passphrases(test_phrases_list)
 
 #### deploy
